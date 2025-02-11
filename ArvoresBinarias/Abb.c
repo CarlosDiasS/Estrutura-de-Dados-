@@ -455,13 +455,28 @@ void insereArvoreBinaria(int n, Arvore* Arvore){
 }
 
 /*
-    Ex. 8 Somar todos os valores de uma ABB
+    Ex. 8 Somar todos os valores de uma Arvore
+    -> semelhante a busca em Largura
+    -> Utiliza uma fila auxiliar
+    -> soma os valores da desenfileração dessa fila
+    ->ate a fila ficar vazia(folhas da arvore alcançadas)
 */
 int somaValoresAb(Arvore *arvore){
 
-
-
-
+    int cont = 0;
+    Fila * fila =criaFila();
+    No *aux = arvore->raiz;
+    if(!aux) return 0;
+    enfileraFila(aux, fila);
+    while(!filaVazia(fila)){
+        aux = desenfileraFila(fila);
+        cont += aux->valor;
+        //sub-arvores
+        if(aux->esq != NULL) enfileraFila(aux->esq,fila);
+        if(aux->dir != NULL) enfileraFila(aux->dir,fila);
+    }
+    free(fila);
+    return cont;
 }
 
 int main()
@@ -510,15 +525,30 @@ int main()
     imprimeFormatado(abb);
     imprimeLinhaLinha(abb->raiz);
 
-    Arvore *bin = (Arvore*)malloc(sizeof(Arvore));
-    bin->raiz = NULL;
-    insereArvoreBinaria(10,bin);
-    insereArvoreBinaria(4,bin);
-    insereArvoreBinaria(6,bin);
-    insereArvoreBinaria(3,bin);
-    insereArvoreBinaria(3,bin);
-    insereArvoreBinaria(2,bin);
-    insereArvoreBinaria(2,bin);
+    // Arvore *bin = (Arvore*)malloc(sizeof(Arvore));
+    // bin->raiz = NULL;
+    // insereArvoreBinaria(10,bin);
+    // insereArvoreBinaria(4,bin);
+    // insereArvoreBinaria(6,bin);
+    // insereArvoreBinaria(3,bin);
+    // insereArvoreBinaria(3,bin);
+    // insereArvoreBinaria(2,bin);
+    // insereArvoreBinaria(2,bin);
+
+    Arvore * arvore2 = malloc(sizeof(Arvore));
+    arvore2->raiz = NULL;
+
+    insereAbb(12, arvore2);
+    insereAbb(5, arvore2);
+    insereAbb(2, arvore2);
+    insereAbb(9, arvore2);
+    insereAbb(18,arvore2);
+    insereAbb(15, arvore2);
+    insereAbb(19, arvore2);
+    insereAbb(13, arvore2);
+    insereAbb(17, arvore2);
+
+    printf("Soma dos valores da arvore: %d\n", somaValoresAb(arvore2));
 
     return 0;
 }
